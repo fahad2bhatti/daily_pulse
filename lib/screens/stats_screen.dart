@@ -13,16 +13,16 @@ class StatsScreen extends StatelessWidget {
     return Consumer<ReminderProvider>(
       builder: (context, provider, _) {
         return SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(18, 14, 18, 18),
+          padding: EdgeInsets.fromLTRB(18, 14, 18, 18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Your Stats',
                   style: kH2(context).copyWith(fontSize: 22)),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               Text('Track your progress and growth',
                   style: kBody(context)),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
 
               // stat cards
               GridView.count(
@@ -59,12 +59,12 @@ class StatsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
 
               // weekly chart
               GlassCard(
                 radius: 20,
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -75,26 +75,26 @@ class StatsScreen extends StatelessWidget {
                         fontFamily: 'Nunito',
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                       'Last 7 days',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.45),
+                        color: Colors.white.withValues(alpha: 0.45),
                         fontSize: 12,
                         fontFamily: 'Nunito',
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     _WeeklyChart(data: provider.weeklyData),
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
 
               // streak info card
               GlassCard(
                 radius: 20,
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 child: Row(
                   children: [
                     Container(
@@ -102,31 +102,31 @@ class StatsScreen extends StatelessWidget {
                       height: 52,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.orange.withOpacity(0.15),
+                        color: Colors.orange.withValues(alpha: 0.15),
                         border: Border.all(
-                          color: Colors.orange.withOpacity(0.4),
+                          color: Colors.orange.withValues(alpha: 0.4),
                         ),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.local_fire_department_rounded,
                         color: Colors.orange,
                         size: 28,
                       ),
                     ),
-                    const SizedBox(width: 14),
+                    SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             '${provider.streak} day streak! 🔥',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 16,
                               fontFamily: 'Nunito',
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          SizedBox(height: 4),
                           Text(
                             provider.streak >= 7
                                 ? 'Zabardast! Ek hafte se zyada!'
@@ -134,7 +134,7 @@ class StatsScreen extends StatelessWidget {
                                 ? 'Wah bhai! Chalta reh!'
                                 : 'Shuru ho gaya safar!',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.55),
+                              color: Colors.white.withValues(alpha: 0.55),
                               fontSize: 12,
                               fontFamily: 'Nunito',
                             ),
@@ -145,7 +145,7 @@ class StatsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 90),
+              SizedBox(height: 90),
             ],
           ),
         );
@@ -171,7 +171,7 @@ class _StatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GlassCard(
       radius: 18,
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -179,17 +179,17 @@ class _StatCard extends StatelessWidget {
           const Spacer(),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w900,
               fontFamily: 'Nunito',
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.55),
+              color: Colors.white.withValues(alpha: 0.55),
               fontWeight: FontWeight.w700,
               fontSize: 12,
               fontFamily: 'Nunito',
@@ -221,7 +221,7 @@ class _WeeklyChart extends StatelessWidget {
 
           return Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
+              padding: EdgeInsets.symmetric(horizontal: 5),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -244,11 +244,11 @@ class _WeeklyChart extends StatelessWidget {
                       )
                           : null,
                       color: val == 0
-                          ? Colors.white.withOpacity(0.08)
+                          ? Colors.white.withValues(alpha: 0.08)
                           : null,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6),
                   Text(
                     days[i],
                     style: TextStyle(
@@ -257,7 +257,7 @@ class _WeeklyChart extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                       color: isToday
                           ? AppColors.teal
-                          : Colors.white.withOpacity(0.45),
+                          : Colors.white.withValues(alpha: 0.45),
                     ),
                   ),
                 ],
@@ -269,3 +269,7 @@ class _WeeklyChart extends StatelessWidget {
     );
   }
 }
+
+
+
+

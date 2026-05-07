@@ -18,36 +18,36 @@ class TasksScreen extends StatelessWidget {
         final progress  = provider.progress;
 
         return SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(18, 14, 18, 18),
+          padding: EdgeInsets.fromLTRB(18, 14, 18, 18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Today's Tasks",
                   style: kH2(context).copyWith(fontSize: 22)),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Text(
                 '$doneCount of ${reminders.length} completed',
                 style: kBody(context),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               _ProgressBar(progress: progress),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               if (reminders.isEmpty)
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 40),
+                    padding: EdgeInsets.only(top: 40),
                     child: Column(
                       children: [
                         Icon(Icons.add_circle_outline_rounded,
                             size: 48,
-                            color: Colors.white.withOpacity(0.25)),
-                        const SizedBox(height: 12),
+                            color: Colors.white.withValues(alpha: 0.25)),
+                        SizedBox(height: 12),
                         Text(
                           'Koi reminder nahi\nAdd karo pehla task!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.4),
+                            color: Colors.white.withValues(alpha: 0.4),
                             fontFamily: 'Nunito',
                             fontWeight: FontWeight.w600,
                           ),
@@ -60,17 +60,17 @@ class TasksScreen extends StatelessWidget {
                 Text(
                   'Pending',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                     fontWeight: FontWeight.w800,
                     fontSize: 12,
                     fontFamily: 'Nunito',
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 ...reminders
                     .where((r) => !r.isDone)
                     .map((r) => Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.only(bottom: 10),
                   child: _TaskTile(
                     reminder: r,
                     onToggle: () =>
@@ -80,21 +80,21 @@ class TasksScreen extends StatelessWidget {
                   ),
                 )),
                 if (reminders.any((r) => r.isDone)) ...[
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Text(
                     'Completed',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.4),
+                      color: Colors.white.withValues(alpha: 0.4),
                       fontWeight: FontWeight.w800,
                       fontSize: 12,
                       fontFamily: 'Nunito',
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   ...reminders
                       .where((r) => r.isDone)
                       .map((r) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
+                    padding: EdgeInsets.only(bottom: 10),
                     child: _TaskTile(
                       reminder: r,
                       onToggle: () =>
@@ -105,7 +105,7 @@ class TasksScreen extends StatelessWidget {
                   )),
                 ],
               ],
-              const SizedBox(height: 90),
+              SizedBox(height: 90),
             ],
           ),
         );
@@ -124,13 +124,13 @@ class _ProgressBar extends StatelessWidget {
       borderRadius: BorderRadius.circular(99),
       child: Container(
         height: 8,
-        color: Colors.white.withOpacity(0.08),
+        color: Colors.white.withValues(alpha: 0.08),
         child: Align(
           alignment: Alignment.centerLeft,
           child: FractionallySizedBox(
             widthFactor: progress.clamp(0.0, 1.0),
             child: Container(
-              decoration: const BoxDecoration(gradient: kMainGradient),
+              decoration: BoxDecoration(gradient: kMainGradient),
             ),
           ),
         ),
@@ -158,17 +158,17 @@ class _TaskTile extends StatelessWidget {
       onDismissed: (_) => onDelete(),
       background: Container(
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20),
+        padding: EdgeInsets.only(right: 20),
         decoration: BoxDecoration(
-          color: AppColors.danger.withOpacity(0.2),
+          color: AppColors.danger.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(18),
         ),
-        child: const Icon(Icons.delete_rounded,
+        child: Icon(Icons.delete_rounded,
             color: AppColors.danger),
       ),
       child: GlassCard(
         radius: 18,
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.all(12),
         child: Row(
           children: [
             Container(
@@ -181,20 +181,20 @@ class _TaskTile extends StatelessWidget {
                     : AppColors.purple,
               ),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Container(
               width: 40,
               height: 40,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
-                color: AppColors.purple.withOpacity(0.15),
+                color: AppColors.purple.withValues(alpha: 0.15),
                 border: Border.all(
-                    color: AppColors.purple.withOpacity(0.30)),
+                    color: AppColors.purple.withValues(alpha: 0.30)),
               ),
               child: Icon(reminder.icon,
-                  color: Colors.white.withOpacity(0.92), size: 20),
+                  color: Colors.white.withValues(alpha: 0.92), size: 20),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,15 +208,15 @@ class _TaskTile extends StatelessWidget {
                           ? TextDecoration.lineThrough
                           : null,
                       color: reminder.isDone
-                          ? Colors.white.withOpacity(0.45)
+                          ? Colors.white.withValues(alpha: 0.45)
                           : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 3),
+                  SizedBox(height: 3),
                   Text(
                     '${reminder.time.format(context)} · ${reminder.repeat}',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.55),
+                      color: Colors.white.withValues(alpha: 0.55),
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
                       fontFamily: 'Nunito',
@@ -235,12 +235,12 @@ class _TaskTile extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: reminder.isDone
-                      ? AppColors.teal.withOpacity(0.2)
-                      : Colors.white.withOpacity(0.08),
+                      ? AppColors.teal.withValues(alpha: 0.2)
+                      : Colors.white.withValues(alpha: 0.08),
                   border: Border.all(
                     color: reminder.isDone
                         ? AppColors.teal
-                        : Colors.white.withOpacity(0.14),
+                        : Colors.white.withValues(alpha: 0.14),
                   ),
                 ),
                 child: Icon(
@@ -250,7 +250,7 @@ class _TaskTile extends StatelessWidget {
                   size: 16,
                   color: reminder.isDone
                       ? AppColors.teal
-                      : Colors.white.withOpacity(0.7),
+                      : Colors.white.withValues(alpha: 0.7),
                 ),
               ),
             ),
@@ -260,3 +260,7 @@ class _TaskTile extends StatelessWidget {
     );
   }
 }
+
+
+
+

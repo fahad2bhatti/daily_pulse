@@ -15,10 +15,10 @@ class DailyBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+      padding: EdgeInsets.fromLTRB(14, 0, 14, 14),
       child: GlassCard(
         radius: 20,
-        padding: const EdgeInsets.symmetric(
+        padding: EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 10,
         ),
@@ -26,9 +26,9 @@ class DailyBottomNav extends StatelessWidget {
           children: [
             _item(0, Icons.home_rounded, 'Home'),
             _item(1, Icons.checklist_rounded, 'Tasks'),
-            const SizedBox(width: 6),
+            SizedBox(width: 6),
             _addBtn(),
-            const SizedBox(width: 6),
+            SizedBox(width: 6),
             _item(3, Icons.bar_chart_rounded, 'Stats'),
             _item(4, Icons.person_rounded, 'Profile'),
           ],
@@ -45,16 +45,16 @@ class DailyBottomNav extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
-          margin: const EdgeInsets.symmetric(horizontal: 6),
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          margin: EdgeInsets.symmetric(horizontal: 6),
+          padding: EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
             color: selected
-                ? Colors.white.withOpacity(0.10)
+                ? Colors.white.withValues(alpha: 0.10)
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
               color: selected
-                  ? Colors.white.withOpacity(0.12)
+                  ? Colors.white.withValues(alpha: 0.12)
                   : Colors.transparent,
             ),
           ),
@@ -66,9 +66,9 @@ class DailyBottomNav extends StatelessWidget {
                 size: 20,
                 color: selected
                     ? Colors.white
-                    : Colors.white.withOpacity(0.55),
+                    : Colors.white.withValues(alpha: 0.55),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
               Text(
                 label,
                 style: TextStyle(
@@ -77,7 +77,7 @@ class DailyBottomNav extends StatelessWidget {
                   fontFamily: 'Nunito',
                   color: selected
                       ? Colors.white
-                      : Colors.white.withOpacity(0.55),
+                      : Colors.white.withValues(alpha: 0.55),
                 ),
               ),
             ],
@@ -99,13 +99,13 @@ class DailyBottomNav extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF6D5BFF).withOpacity(0.25),
+              color: const Color(0xFF6D5BFF).withValues(alpha: 0.25),
               blurRadius: 18,
               offset: const Offset(0, 10),
             ),
           ],
         ),
-        child: const Icon(
+        child: Icon(
           Icons.add_rounded,
           color: Colors.white,
           size: 26,
@@ -114,3 +114,7 @@ class DailyBottomNav extends StatelessWidget {
     );
   }
 }
+
+
+
+

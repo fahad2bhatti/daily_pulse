@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import '../utils/app_colors.dart';
-import '../utils/constants.dart';
-import '../widgets/app_background.dart';
-import '../widgets/gradient_button.dart';
+import 'package:provider/provider.dart';
+import '../providers/user_provider.dart';
 import 'app_shell.dart';
 
 class WakeupScreen extends StatefulWidget {
@@ -12,162 +10,222 @@ class WakeupScreen extends StatefulWidget {
   State<WakeupScreen> createState() => _WakeupScreenState();
 }
 
-class _WakeupScreenState extends State<WakeupScreen> {
-  int _hour = 7;
-  int _minute = 0;
-  bool _am = true;
+class _WakeupScreenState extends State<WakeupScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _pulseAnimation;
+  TimeOfDay _selectedTime = const TimeOfDay(hour: 7, minute: 0);
 
-  void _incHour(int d) => setState(() {
-    _hour += d;
-    if (_hour <= 0) _hour = 12;
-    if (_hour > 12) _hour = 1;
-  });
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat(reverse: true);
 
-  void _incMinute(int d) => setState(() {
-    _minute += d;
-    if (_minute < 0) _minute = 55;
-    if (_minute >= 60) _minute = 0;
-  });
-
-  Widget _ampmChip(String label, {required bool selected}) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 160),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        gradient: selected ? kMainGradient : null,
-        color: selected ? null : Colors.transparent,
-        borderRadius: BorderRadius.circular(99),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontWeight: FontWeight.w800,
-          fontSize: 12,
-          fontFamily: 'Nunito',
-        ),
-      ),
+    _pulseAnimation = Tween<double>(begin: 1, end: 1.1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    final hh = _hour.toString().padLeft(2, '0');
-    final mm = _minute.toString().padLeft(2, '0');
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
-    return AppBackground(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(18, 12, 18, 18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('When do you rise?', style: kH2(context)),
-            const SizedBox(height: 6),
-            Text(
-              "We'll build your day around this",
-              style: kBody(context),
+  Future<void> _selectTime() async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.dark(
+              primary: Color(0xFF6C63FF),
+              onPrimary: Colors.white,
+              surface: Color(0xFF1E1E1E),
+              onSurface: Colors.white,
             ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: Center(
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && picked != _selectedTime) {
+      setState(() => _selectedTime = picked);
+    }
+  }
+
+  String get _formattedTime {
+    final hour = _selectedTime.hour.toString().padLeft(2, '0');
+    final minute = _selectedTime.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0F0F0F),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            children: [
+              const SizedBox(height: 60),
+
+              // Animated Alarm Icon
+              ScaleTransition(
+                scale: _pulseAnimation,
                 child: Container(
-                  width: 250,
-                  height: 250,
+                  width: 140,
+                  height: 140,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white.withOpacity(0.05),
-                    border: Border.all(
-                      color: AppColors.purple.withOpacity(0.25),
-                      width: 2,
+                    gradient: const RadialGradient(
+                      colors: [Color(0xFF6C63FF), Color(0xFF2D2D3A)],
+                      stops: [0.3, 1],
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
+                        blurRadius: 40,
+                        spreadRadius: 10,
+                      ),
+                    ],
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: const Icon(
+                    Icons.alarm,
+                    size: 60,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 50),
+
+              // Title
+              const Text(
+                'When do you wake up?',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // Subtitle
+              Text(
+                'We\'ll schedule your morning\nhabits around this time',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white.withValues(alpha: 0.6),
+                  height: 1.5,
+                ),
+              ),
+
+              const SizedBox(height: 50),
+
+              // Time Display Button
+              GestureDetector(
+                onTap: _selectTime,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: 20,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF2D2D3A), Color(0xFF1E1E2E)],
+                    ),
+                    border: Border.all(
+                      color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF6C63FF).withValues(alpha: 0.1),
+                        blurRadius: 20,
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                            onPressed: () => _incHour(1),
-                            icon: Icon(
-                              Icons.keyboard_arrow_up_rounded,
-                              color: Colors.white.withOpacity(0.65),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => _incMinute(5),
-                            icon: Icon(
-                              Icons.keyboard_arrow_up_rounded,
-                              color: Colors.white.withOpacity(0.65),
-                            ),
-                          ),
-                        ],
+                      const Icon(
+                        Icons.access_time,
+                        color: Color(0xFF6C63FF),
+                        size: 24,
                       ),
+                      const SizedBox(width: 16),
                       Text(
-                        '$hh : $mm',
-                        style: TextStyle(
-                          fontSize: 44,
-                          fontWeight: FontWeight.w800,
+                        _formattedTime,
+                        style: const TextStyle(
+                          fontSize: 42,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.white,
                           letterSpacing: 2,
-                          fontFamily: 'Nunito',
-                          color: AppColors.teal.withOpacity(0.9),
                         ),
                       ),
-                      const SizedBox(height: 14),
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.20),
-                          borderRadius: BorderRadius.circular(99),
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.10),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            InkWell(
-                              onTap: () => setState(() => _am = true),
-                              child: _ampmChip('AM', selected: _am),
-                            ),
-                            InkWell(
-                              onTap: () => setState(() => _am = false),
-                              child: _ampmChip('PM', selected: !_am),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                            onPressed: () => _incHour(-1),
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: Colors.white.withOpacity(0.65),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => _incMinute(-5),
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: Colors.white.withOpacity(0.65),
-                            ),
-                          ),
-                        ],
+                      const SizedBox(width: 16),
+                      const Icon(
+                        Icons.edit,
+                        color: Colors.white54,
+                        size: 20,
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
-            GradientButton(
-              text: 'Start My Journey',
-              trailing: Icons.arrow_forward_rounded,
-              onTap: () => Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => const AppShell()),
+
+              const Spacer(),
+
+              // Continue Button
+              GestureDetector(
+                onTap: () {
+                  final timeString = '${_selectedTime.hour.toString().padLeft(2, '0')}:${_selectedTime.minute.toString().padLeft(2, '0')} ${_selectedTime.period == DayPeriod.am ? 'AM' : 'PM'}';
+                  context.read<UserProvider>().updateWakeUpTime(timeString);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const AppShell()),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF6C63FF), Color(0xFF4A90E2)],
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF6C63FF).withValues(alpha: 0.4),
+                        blurRadius: 20,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: const Text(
+                    'Continue',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
+
+              const SizedBox(height: 40),
+            ],
+          ),
         ),
       ),
     );

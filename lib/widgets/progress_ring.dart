@@ -25,7 +25,7 @@ class ProgressRing extends StatelessWidget {
             child: CircularProgressIndicator(
               value: progress,
               strokeWidth: 9,
-              backgroundColor: Colors.white.withOpacity(0.08),
+              backgroundColor: Colors.white.withValues(alpha: 0.08),
               valueColor: const AlwaysStoppedAnimation(AppColors.teal),
             ),
           ),
@@ -34,7 +34,7 @@ class ProgressRing extends StatelessWidget {
             children: [
               Text(
                 '${(progress * 100).round()}%',
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w800,
                   fontSize: 18,
                   fontFamily: 'Nunito',
@@ -43,7 +43,7 @@ class ProgressRing extends StatelessWidget {
               Text(
                 'Done',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.55),
+                  color: Colors.white.withValues(alpha: 0.55),
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Nunito',
@@ -56,3 +56,7 @@ class ProgressRing extends StatelessWidget {
     );
   }
 }
+
+
+
+

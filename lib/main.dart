@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'utils/app_theme.dart';
 import 'providers/reminder_provider.dart';
 import 'providers/habit_provider.dart';
+import 'providers/user_provider.dart';
+import 'providers/score_provider.dart';
 import 'screens/splash_screen.dart';
 import 'services/notification_service.dart';
 
@@ -24,6 +26,12 @@ class DailyPulseApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => HabitProvider()..init(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ScoreProvider(),
         ),
       ],
       child: MaterialApp(

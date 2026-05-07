@@ -84,7 +84,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Reminder save ho gaya! ✅'),
-        backgroundColor: AppColors.teal.withOpacity(0.8),
+        backgroundColor: AppColors.teal.withValues(alpha: 0.8),
       ),
     );
   }
@@ -98,47 +98,47 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(18, 14, 18, 18),
+      padding: EdgeInsets.fromLTRB(18, 14, 18, 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Add Reminder', style: kH2(context).copyWith(fontSize: 22)),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
 
           _label('Task Name'),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           TextField(
             controller: _nameCtrl,
-            style: const TextStyle(fontFamily: 'Nunito'),
+            style: TextStyle(fontFamily: 'Nunito'),
             decoration: InputDecoration(
               hintText: 'e.g., Morning Workout',
               hintStyle: TextStyle(
-                color: Colors.white.withOpacity(0.28),
+                color: Colors.white.withValues(alpha: 0.28),
                 fontFamily: 'Nunito',
               ),
               filled: true,
-              fillColor: Colors.white.withOpacity(0.06),
+              fillColor: Colors.white.withValues(alpha: 0.06),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(color: Colors.white.withOpacity(0.10)),
+                borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.10)),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(color: Colors.white.withOpacity(0.10)),
+                borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.10)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(color: AppColors.teal.withOpacity(0.6)),
+                borderSide: BorderSide(color: AppColors.teal.withValues(alpha: 0.6)),
               ),
-              contentPadding: const EdgeInsets.symmetric(
+              contentPadding: EdgeInsets.symmetric(
                 horizontal: 14, vertical: 14,
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           _label('Choose Icon'),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Wrap(
             spacing: 10,
             runSpacing: 10,
@@ -154,53 +154,53 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
                     gradient: sel ? kMainGradient : null,
-                    color: sel ? null : Colors.white.withOpacity(0.06),
+                    color: sel ? null : Colors.white.withValues(alpha: 0.06),
                     border: Border.all(
-                      color: Colors.white.withOpacity(sel ? 0.0 : 0.10),
+                      color: Colors.white.withValues(alpha: sel ? 0.0 : 0.10),
                     ),
                   ),
-                  child: Icon(ic, color: Colors.white.withOpacity(0.92), size: 22),
+                  child: Icon(ic, color: Colors.white.withValues(alpha: 0.92), size: 22),
                 ),
               );
             }).toList(),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           _label('Time'),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           InkWell(
             onTap: _pickTime,
             borderRadius: BorderRadius.circular(14),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.06),
+                color: Colors.white.withValues(alpha: 0.06),
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.white.withOpacity(0.10)),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
               ),
               child: Row(
                 children: [
                   Icon(Icons.access_time_rounded,
-                      color: Colors.white.withOpacity(0.8)),
-                  const SizedBox(width: 10),
+                      color: Colors.white.withValues(alpha: 0.8)),
+                  SizedBox(width: 10),
                   Text(
                     _time.format(context),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w900,
                       fontFamily: 'Nunito',
                     ),
                   ),
                   const Spacer(),
                   Icon(Icons.chevron_right_rounded,
-                      color: Colors.white.withOpacity(0.6)),
+                      color: Colors.white.withValues(alpha: 0.6)),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           _label('Repeat'),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Wrap(
             spacing: 10,
             runSpacing: 10,
@@ -210,7 +210,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
               borderRadius: BorderRadius.circular(99),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 160),
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: 16, vertical: 10,
                 ),
                 decoration: BoxDecoration(
@@ -218,14 +218,14 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                   gradient: _repeat == r ? kMainGradient : null,
                   color: _repeat == r
                       ? null
-                      : Colors.white.withOpacity(0.06),
+                      : Colors.white.withValues(alpha: 0.06),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.10),
+                    color: Colors.white.withValues(alpha: 0.10),
                   ),
                 ),
                 child: Text(
                   r,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w800,
                     fontSize: 12,
                     fontFamily: 'Nunito',
@@ -235,22 +235,22 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
             ))
                 .toList(),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           _toggleRow('Sound', Icons.notifications_active_rounded,
               _sound, (v) => setState(() => _sound = v)),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           _toggleRow('Vibration', Icons.vibration_rounded,
               _vibration, (v) => setState(() => _vibration = v)),
 
-          const SizedBox(height: 18),
+          SizedBox(height: 18),
 
           GradientButton(
             text: _saving ? 'Saving...' : 'Save Reminder',
             trailing: _saving ? null : Icons.check_rounded,
             onTap: _saving ? null : _save,
           ),
-          const SizedBox(height: 90),
+          SizedBox(height: 90),
         ],
       ),
     );
@@ -259,7 +259,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
   Widget _label(String text) => Text(
     text,
     style: TextStyle(
-      color: Colors.white.withOpacity(0.65),
+      color: Colors.white.withValues(alpha: 0.65),
       fontWeight: FontWeight.w800,
       fontSize: 12,
       fontFamily: 'Nunito',
@@ -270,20 +270,25 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
       ValueChanged<bool> onChanged) {
     return GlassCard(
       radius: 16,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
         children: [
-          Icon(icon, color: Colors.white.withOpacity(0.85)),
-          const SizedBox(width: 10),
+          Icon(icon, color: Colors.white.withValues(alpha: 0.85)),
+          SizedBox(width: 10),
           Text(label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontFamily: 'Nunito',
               )),
           const Spacer(),
-          Switch(value: value, onChanged: onChanged, activeColor: AppColors.teal),
+          Switch(value: value, onChanged: onChanged, activeThumbColor: AppColors.teal),
         ],
       ),
     );
   }
 }
+
+
+
+
+

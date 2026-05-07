@@ -25,21 +25,21 @@ class GradientButton extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: onTap == null
               ? LinearGradient(colors: [
-            AppColors.purple.withOpacity(0.4),
-            AppColors.teal.withOpacity(0.35),
+            AppColors.purple.withValues(alpha: 0.4),
+            AppColors.teal.withValues(alpha: 0.35),
           ])
               : kMainGradient,
           borderRadius: BorderRadius.circular(999),
           boxShadow: [
             BoxShadow(
-              color: AppColors.purple.withOpacity(0.18),
+              color: AppColors.purple.withValues(alpha: 0.18),
               blurRadius: 18,
               offset: const Offset(0, 8),
             ),
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: EdgeInsets.symmetric(
             horizontal: 18,
             vertical: 14,
           ),
@@ -50,14 +50,14 @@ class GradientButton extends StatelessWidget {
             children: [
               Text(
                 text,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                   fontFamily: 'Nunito',
                 ),
               ),
               if (trailing != null) ...[
-                const SizedBox(width: 10),
+                SizedBox(width: 10),
                 Icon(trailing, size: 18, color: Colors.white),
               ],
             ],
@@ -71,3 +71,7 @@ class GradientButton extends StatelessWidget {
         : btn;
   }
 }
+
+
+
+

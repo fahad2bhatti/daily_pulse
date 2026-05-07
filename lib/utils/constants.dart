@@ -13,7 +13,7 @@ const kBgGradient = LinearGradient(
   colors: [Color(0xFF07071A), Color(0xFF061A22)],
 );
 
-TextStyle kH1(BuildContext c) => const TextStyle(
+TextStyle kH1(BuildContext c) => TextStyle(
   fontSize: 36,
   height: 1.05,
   fontWeight: FontWeight.w800,
@@ -22,7 +22,7 @@ TextStyle kH1(BuildContext c) => const TextStyle(
   fontFamily: 'Nunito',
 );
 
-TextStyle kH2(BuildContext c) => const TextStyle(
+TextStyle kH2(BuildContext c) => TextStyle(
   fontSize: 28,
   height: 1.08,
   fontWeight: FontWeight.w800,
@@ -31,10 +31,13 @@ TextStyle kH2(BuildContext c) => const TextStyle(
   fontFamily: 'Nunito',
 );
 
-TextStyle kBody(BuildContext c) => const TextStyle(
+TextStyle kBody(BuildContext c) => TextStyle(
   fontSize: 14,
   height: 1.35,
   fontWeight: FontWeight.w500,
   color: AppColors.sub,
   fontFamily: 'Nunito',
 );
+
+
+

@@ -20,12 +20,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(18, 14, 18, 18),
+      padding: EdgeInsets.fromLTRB(18, 14, 18, 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Profile', style: kH2(context).copyWith(fontSize: 22)),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           // avatar row
           GlassCard(
@@ -39,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     shape: BoxShape.circle,
                     gradient: kMainGradient,
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       'FS',
                       style: TextStyle(
@@ -51,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -63,11 +63,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontFamily: 'Nunito',
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                       '21-day streak member 🔥',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.55),
+                        color: Colors.white.withValues(alpha: 0.55),
                         fontSize: 12,
                         fontFamily: 'Nunito',
                       ),
@@ -77,18 +77,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           Text(
             'Settings',
             style: TextStyle(
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withValues(alpha: 0.5),
               fontWeight: FontWeight.w800,
               fontSize: 12,
               fontFamily: 'Nunito',
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
 
           _toggleTile(
             'Dark Mode',
@@ -96,21 +96,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             _darkMode,
                 (v) => setState(() => _darkMode = v),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           _toggleTile(
             'Discipline Mode',
             Icons.bolt_rounded,
             _disciplineMode,
                 (v) => setState(() => _disciplineMode = v),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           _toggleTile(
             'Notifications',
             Icons.notifications_rounded,
             _notifications,
                 (v) => setState(() => _notifications = v),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           // Test Notification Button
           SizedBox(
@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 );
               },
-              icon: const Icon(Icons.notifications_active_rounded),
+              icon: Icon(Icons.notifications_active_rounded),
               label: const Text(
                 'Test Notification',
                 style: TextStyle(
@@ -137,36 +137,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orange,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 14),
+                padding: EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 16), // ✅ Comma yahan tha missing
+          SizedBox(height: 16), // ✅ Comma yahan tha missing
 
           Text(
             'Account',
             style: TextStyle(
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withValues(alpha: 0.5),
               fontWeight: FontWeight.w800,
               fontSize: 12,
               fontFamily: 'Nunito',
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
 
           _actionTile('Edit Profile', Icons.edit_rounded),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           _actionTile('Export Data', Icons.download_rounded),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           _actionTile(
             'Sign Out',
             Icons.logout_rounded,
             color: AppColors.danger,
           ),
-          const SizedBox(height: 90),
+          SizedBox(height: 90),
         ],
       ),
     );
@@ -180,14 +180,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ) {
     return GlassCard(
       radius: 16,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       child: Row(
         children: [
           Icon(icon, color: AppColors.purple, size: 20),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w700,
               fontFamily: 'Nunito',
             ),
@@ -196,7 +196,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: AppColors.teal,
+            activeThumbColor: AppColors.teal,
           ),
         ],
       ),
@@ -206,15 +206,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _actionTile(String label, IconData icon, {Color? color}) {
     return GlassCard(
       radius: 16,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       child: Row(
         children: [
           Icon(
             icon,
-            color: color ?? Colors.white.withOpacity(0.7),
+            color: color ?? Colors.white.withValues(alpha: 0.7),
             size: 20,
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Text(
             label,
             style: TextStyle(
@@ -226,7 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const Spacer(),
           Icon(
             Icons.chevron_right_rounded,
-            color: Colors.white.withOpacity(0.3),
+            color: Colors.white.withValues(alpha: 0.3),
             size: 18,
           ),
         ],
@@ -234,3 +234,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
+
+
+
+
+

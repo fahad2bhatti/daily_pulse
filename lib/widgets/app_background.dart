@@ -18,7 +18,7 @@ class AppBackground extends StatelessWidget {
               left: -120,
               top: 120,
               child: _GlowCircle(
-                color: AppColors.purple.withOpacity(0.22),
+                color: AppColors.purple.withValues(alpha: 0.22),
                 size: 260,
               ),
             ),
@@ -26,7 +26,7 @@ class AppBackground extends StatelessWidget {
               right: -140,
               bottom: 140,
               child: _GlowCircle(
-                color: AppColors.teal.withOpacity(0.18),
+                color: AppColors.teal.withValues(alpha: 0.18),
                 size: 300,
               ),
             ),
@@ -61,3 +61,6 @@ class _GlowCircle extends StatelessWidget {
     );
   }
 }
+
+
+
