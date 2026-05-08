@@ -133,3 +133,5 @@ class HabitProvider extends ChangeNotifier {
     return newStreak > currentBest ? newStreak : currentBest;
   }
 }
+
+

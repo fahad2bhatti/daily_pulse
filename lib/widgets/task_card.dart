@@ -18,7 +18,7 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassCard(
-      radius: 18,
+      borderRadius: BorderRadius.circular(18),
       padding: EdgeInsets.all(12),
       child: Row(
         children: [
@@ -103,6 +103,8 @@ class TaskCard extends StatelessWidget {
     );
   }
 }
+
+
 
 
 

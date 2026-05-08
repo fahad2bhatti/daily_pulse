@@ -269,7 +269,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
   Widget _toggleRow(String label, IconData icon, bool value,
       ValueChanged<bool> onChanged) {
     return GlassCard(
-      radius: 16,
+      borderRadius: BorderRadius.circular(16),
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
         children: [
@@ -287,6 +287,8 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
     );
   }
 }
+
+
 
 
 

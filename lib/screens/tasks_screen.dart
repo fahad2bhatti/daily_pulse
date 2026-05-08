@@ -167,7 +167,7 @@ class _TaskTile extends StatelessWidget {
             color: AppColors.danger),
       ),
       child: GlassCard(
-        radius: 18,
+        borderRadius: BorderRadius.circular(18),
         padding: EdgeInsets.all(12),
         child: Row(
           children: [
@@ -260,6 +260,8 @@ class _TaskTile extends StatelessWidget {
     );
   }
 }
+
+
 
 
 

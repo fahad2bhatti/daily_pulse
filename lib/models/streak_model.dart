@@ -138,3 +138,5 @@ class StreakModel {
     return 'Streak(current: $currentStreak, best: $bestStreak, freeze: $streakFreezeCount)';
   }
 }
+
+

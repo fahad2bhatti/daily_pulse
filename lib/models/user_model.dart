@@ -79,3 +79,5 @@ class UserModel {
     return 'UserModel(name: $name, wakeUpTime: $wakeUpTime, lifestyle: $lifestyle)';
   }
 }
+
+

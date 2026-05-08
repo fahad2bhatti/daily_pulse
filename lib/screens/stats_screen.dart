@@ -63,7 +63,7 @@ class StatsScreen extends StatelessWidget {
 
               // weekly chart
               GlassCard(
-                radius: 20,
+                borderRadius: BorderRadius.circular(20),
                 padding: EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +93,7 @@ class StatsScreen extends StatelessWidget {
 
               // streak info card
               GlassCard(
-                radius: 20,
+                borderRadius: BorderRadius.circular(20),
                 padding: EdgeInsets.all(16),
                 child: Row(
                   children: [
@@ -170,7 +170,7 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassCard(
-      radius: 18,
+      borderRadius: BorderRadius.circular(18),
       padding: EdgeInsets.all(14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -269,6 +269,8 @@ class _WeeklyChart extends StatelessWidget {
     );
   }
 }
+
+
 
 
 

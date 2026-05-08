@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import '../utils/app_colors.dart';
-import '../utils/constants.dart';
-import '../widgets/glass_card.dart';
 import 'package:provider/provider.dart';
-import '../providers/reminder_provider.dart';
+import '../providers/user_provider.dart';
+import '../widgets/glass_card.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -13,229 +11,325 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool _darkMode = true;
-  bool _disciplineMode = true;
-  bool _notifications = true;
+  final _nameController = TextEditingController();
+  bool _isEditing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Load current user name
+    final user = context.read<UserProvider>().user;
+    _nameController.text = user.name;
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  void _saveName() {
+    final name = _nameController.text.trim();
+    if (name.isNotEmpty) {
+      context.read<UserProvider>().updateName(name);
+      setState(() => _isEditing = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Name saved!'),
+          backgroundColor: Color(0xFF1D9E75),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(18, 14, 18, 18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Profile', style: kH2(context).copyWith(fontSize: 22)),
-          SizedBox(height: 16),
+    return Consumer<UserProvider>(
+      builder: (context, userProvider, _) {
+        final user = userProvider.user;
 
-          // avatar row
-          GlassCard(
-            radius: 20,
-            child: Row(
+        return Scaffold(
+          backgroundColor: const Color(0xFF0F0F0F),
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
+            ),
+            title: const Text(
+              'Profile',
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
               children: [
+                // Avatar
                 Container(
-                  width: 54,
-                  height: 54,
+                  width: 100,
+                  height: 100,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: kMainGradient,
-                  ),
-                  child: Center(
-                    child: Text(
-                      'FS',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontFamily: 'Nunito',
-                      ),
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF6C63FF), Color(0xFF4A90E2)],
                     ),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
+                        blurRadius: 20,
+                      ),
+                    ],
+                  ),
+                  child: const Icon(
+                    Icons.person,
+                    size: 50,
+                    color: Colors.white,
                   ),
                 ),
-                SizedBox(width: 14),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Fahad Saeed',
+                const SizedBox(height: 20),
+
+                // Name Section
+                GlassCard(
+                  borderRadius: BorderRadius.circular(20),
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Your Name',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white70,
+                              fontFamily: 'Nunito',
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() => _isEditing = !_isEditing);
+                              if (!_isEditing) _saveName();
+                            },
+                            child: Icon(
+                              _isEditing ? Icons.check : Icons.edit,
+                              color: const Color(0xFF6C63FF),
+                              size: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      if (_isEditing)
+                        TextField(
+                          controller: _nameController,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: 'Nunito',
+                          ),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: Color(0xFF6C63FF)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.2)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: Color(0xFF6C63FF)),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white.withValues(alpha: 0.05),
+                          ),
+                          autofocus: true,
+                          onSubmitted: (_) => _saveName(),
+                        )
+                      else
+                        Text(
+                          user.name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: 'Nunito',
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Lifestyle
+                GlassCard(
+                  borderRadius: BorderRadius.circular(20),
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF6C63FF).withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.schedule,
+                          color: Color(0xFF6C63FF),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Lifestyle',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontFamily: 'Nunito',
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              user.lifestyle,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontFamily: 'Nunito',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Wake Up Time
+                GlassCard(
+                  borderRadius: BorderRadius.circular(20),
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF1D9E75).withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.alarm,
+                          color: Color(0xFF1D9E75),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Wake Up Time',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontFamily: 'Nunito',
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              user.wakeUpTime,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontFamily: 'Nunito',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Reset Button
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        backgroundColor: const Color(0xFF1E1E2E),
+                        title: const Text(
+                          'Reset Progress?',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        content: const Text(
+                          'This will clear all your data. This action cannot be undone.',
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              userProvider.resetUser();
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Progress reset!'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              'Reset',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
+                    ),
+                    child: const Text(
+                      'Reset All Progress',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 16,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w600,
                         fontFamily: 'Nunito',
                       ),
                     ),
-                    SizedBox(height: 4),
-                    Text(
-                      '21-day streak member 🔥',
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.55),
-                        fontSize: 12,
-                        fontFamily: 'Nunito',
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 16),
-
-          Text(
-            'Settings',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.5),
-              fontWeight: FontWeight.w800,
-              fontSize: 12,
-              fontFamily: 'Nunito',
-            ),
-          ),
-          SizedBox(height: 10),
-
-          _toggleTile(
-            'Dark Mode',
-            Icons.dark_mode_rounded,
-            _darkMode,
-                (v) => setState(() => _darkMode = v),
-          ),
-          SizedBox(height: 8),
-          _toggleTile(
-            'Discipline Mode',
-            Icons.bolt_rounded,
-            _disciplineMode,
-                (v) => setState(() => _disciplineMode = v),
-          ),
-          SizedBox(height: 8),
-          _toggleTile(
-            'Notifications',
-            Icons.notifications_rounded,
-            _notifications,
-                (v) => setState(() => _notifications = v),
-          ),
-          SizedBox(height: 16),
-
-          // Test Notification Button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                context.read<ReminderProvider>().testNotification();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Test notification sent! 🔔'),
-                    duration: Duration(seconds: 2),
-                    backgroundColor: Colors.orange,
-                  ),
-                );
-              },
-              icon: Icon(Icons.notifications_active_rounded),
-              label: const Text(
-                'Test Notification',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Nunito',
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 16), // ✅ Comma yahan tha missing
-
-          Text(
-            'Account',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.5),
-              fontWeight: FontWeight.w800,
-              fontSize: 12,
-              fontFamily: 'Nunito',
-            ),
-          ),
-          SizedBox(height: 10),
-
-          _actionTile('Edit Profile', Icons.edit_rounded),
-          SizedBox(height: 8),
-          _actionTile('Export Data', Icons.download_rounded),
-          SizedBox(height: 8),
-          _actionTile(
-            'Sign Out',
-            Icons.logout_rounded,
-            color: AppColors.danger,
-          ),
-          SizedBox(height: 90),
-        ],
-      ),
-    );
-  }
-
-  Widget _toggleTile(
-      String label,
-      IconData icon,
-      bool value,
-      ValueChanged<bool> onChanged,
-      ) {
-    return GlassCard(
-      radius: 16,
-      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      child: Row(
-        children: [
-          Icon(icon, color: AppColors.purple, size: 20),
-          SizedBox(width: 12),
-          Text(
-            label,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Nunito',
-            ),
-          ),
-          const Spacer(),
-          Switch(
-            value: value,
-            onChanged: onChanged,
-            activeThumbColor: AppColors.teal,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _actionTile(String label, IconData icon, {Color? color}) {
-    return GlassCard(
-      radius: 16,
-      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            color: color ?? Colors.white.withValues(alpha: 0.7),
-            size: 20,
-          ),
-          SizedBox(width: 12),
-          Text(
-            label,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Nunito',
-              color: color ?? Colors.white,
-            ),
-          ),
-          const Spacer(),
-          Icon(
-            Icons.chevron_right_rounded,
-            color: Colors.white.withValues(alpha: 0.3),
-            size: 18,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
-
-
-
 
 

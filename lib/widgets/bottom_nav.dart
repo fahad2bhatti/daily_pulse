@@ -17,7 +17,7 @@ class DailyBottomNav extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(14, 0, 14, 14),
       child: GlassCard(
-        radius: 20,
+        borderRadius: BorderRadius.circular(20),
         padding: EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 10,
@@ -114,6 +114,8 @@ class DailyBottomNav extends StatelessWidget {
     );
   }
 }
+
+
 
 
 
