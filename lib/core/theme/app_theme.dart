@@ -1,5 +1,3 @@
-// lib/utils/app_theme.dart — Replace with this:
-
 import 'package:flutter/material.dart';
 import '../../utils/app_colors.dart';
 
@@ -72,7 +70,6 @@ class AppTheme {
       colorScheme: const ColorScheme.dark(
         primary: AppColors.purple,
         secondary: AppColors.blue,
-        background: AppColors.bg,
         surface: AppColors.card,
         error: AppColors.red,
       ),
@@ -118,11 +115,11 @@ class AppTheme {
         hintStyle: AppTextStyles.bodyMuted,
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith(
-              (s) => s.contains(MaterialState.selected) ? AppColors.purple : AppColors.t3,
+        thumbColor: WidgetStateProperty.resolveWith(
+              (s) => s.contains(WidgetState.selected) ? AppColors.purple : AppColors.t3,
         ),
-        trackColor: MaterialStateProperty.resolveWith(
-              (s) => s.contains(MaterialState.selected)
+        trackColor: WidgetStateProperty.resolveWith(
+              (s) => s.contains(WidgetState.selected)
               ? AppColors.purple.withValues(alpha: 0.4)
               : AppColors.glass,
         ),
@@ -130,5 +127,3 @@ class AppTheme {
     );
   }
 }
-
-

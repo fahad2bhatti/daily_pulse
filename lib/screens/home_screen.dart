@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../utils/app_colors.dart';
-import '../utils/constants.dart';
+//import '../utils/constants.dart';
 import '../widgets/glass_card.dart';
 import '../widgets/progress_ring.dart';
 import '../widgets/streak_badge.dart';
@@ -414,7 +414,7 @@ class HomeScreen extends StatelessWidget {
 
   // 🔥 STATS PREVIEW
   Widget _buildStatsPreview(BuildContext context, ScoreProvider provider) {
-    final report = provider.getDailyReport();
+    provider.getDailyReport();
 
     return GlassCard(
       borderRadius: BorderRadius.circular(20),
@@ -516,14 +516,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  static Widget _dot(Color c) => Container(
-    width: 14,
-    height: 4,
-    decoration: BoxDecoration(
-      color: c,
-      borderRadius: BorderRadius.circular(99),
-    ),
-  );
 }
 
 // 🔥 HIT TILE with Confetti

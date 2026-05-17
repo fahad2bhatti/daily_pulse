@@ -29,7 +29,6 @@ class HabitTask {
     this.color = const Color(0xFF6C63FF),
   });
 
-  // JSON serialization for SharedPreferences
   Map<String, dynamic> toJson() => {
     'id': id,
     'title': title,
@@ -40,7 +39,7 @@ class HabitTask {
     'repeat': repeat.index,
     'reminderEnabled': reminderEnabled,
     'isCompleted': isCompleted,
-    'color': color.value,
+    'color': color.toARGB32(),
   };
 
   factory HabitTask.fromJson(Map<String, dynamic> json) => HabitTask(
@@ -104,7 +103,6 @@ class AppState {
   })  : tasks = tasks ?? [],
         weekStats = weekStats ?? [];
 
-  // Getters
   int get completedToday => tasks.where((t) => t.isCompleted).length;
   int get totalToday => tasks.length;
   double get todayProgress => totalToday == 0 ? 0 : completedToday / totalToday;
@@ -116,22 +114,27 @@ class AppState {
   List<HabitTask> get eveningTasks =>
       tasks.where((t) => t.category == TaskCategory.evening).toList();
 
-  // Score calculation
   void calculateScore() {
     disciplineScore = completedToday * 10 + streakDays * 50;
     level = (disciplineScore / 500).floor() + 1;
 
-    // Rank system
-    if (disciplineScore >= 10000) rank = 'Grand Master';
-    else if (disciplineScore >= 5000) rank = 'Master';
-    else if (disciplineScore >= 2500) rank = 'Expert';
-    else if (disciplineScore >= 1000) rank = 'Advanced';
-    else if (disciplineScore >= 500) rank = 'Intermediate';
-    else if (disciplineScore >= 100) rank = 'Beginner';
-    else rank = 'Novice';
+    if (disciplineScore >= 10000) {
+      rank = 'Grand Master';
+    } else if (disciplineScore >= 5000) {
+      rank = 'Master';
+    } else if (disciplineScore >= 2500) {
+      rank = 'Expert';
+    } else if (disciplineScore >= 1000) {
+      rank = 'Advanced';
+    } else if (disciplineScore >= 500) {
+      rank = 'Intermediate';
+    } else if (disciplineScore >= 100) {
+      rank = 'Beginner';
+    } else {
+      rank = 'Novice';
+    }
   }
 
-  // JSON serialization
   Map<String, dynamic> toJson() => {
     'userName': userName,
     'lifestyle': lifestyle.index,
@@ -157,5 +160,3 @@ class AppState {
     weekStats: (json['weekStats'] as List).map((s) => DayStats.fromJson(s)).toList(),
   );
 }
-
-

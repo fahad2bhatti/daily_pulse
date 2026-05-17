@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/score_provider.dart';
 import '../services/discipline_score_service.dart';
 import '../widgets/glass_card.dart';
-import '../models/discipline_score.dart';  // <-- YEH ADD KARO
+import '../models/discipline_score.dart';
 
 class DisciplineScreen extends StatelessWidget {
   const DisciplineScreen({super.key});
@@ -23,7 +23,6 @@ class DisciplineScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Header
                   const Text(
                     'Discipline Score',
                     style: TextStyle(
@@ -43,20 +42,12 @@ class DisciplineScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 30),
-
-                  // Main Score Card
                   _buildScoreCard(report, scoreProvider),
                   SizedBox(height: 20),
-
-                  // Stats Grid
                   _buildStatsGrid(score),
                   SizedBox(height: 20),
-
-                  // Level Progress
                   _buildLevelProgress(scoreProvider),
                   SizedBox(height: 20),
-
-                  // Weekly History
                   _buildHistorySection(score),
                 ],
               ),
@@ -73,7 +64,6 @@ class DisciplineScreen extends StatelessWidget {
         padding: EdgeInsets.all(24),
         child: Column(
           children: [
-            // Rank Badge
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
               decoration: BoxDecoration(
@@ -94,8 +84,6 @@ class DisciplineScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-
-            // Big Score
             Text(
               '${provider.totalScore}',
               style: TextStyle(
@@ -115,8 +103,6 @@ class DisciplineScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16),
-
-            // Today's Score
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -170,23 +156,24 @@ class DisciplineScreen extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        childAspectRatio: 1.4,
+        childAspectRatio: 3.8,
       ),
       itemCount: stats.length,
       itemBuilder: (context, index) {
         final stat = stats[index];
         return GlassCard(
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(stat['icon'] as IconData, color: stat['color'] as Color, size: 24),
-                const Spacer(),
+                Icon(stat['icon'] as IconData, color: stat['color'] as Color, size: 18),
+                const SizedBox(height: 2),
                 Text(
                   stat['value'] as String,
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     fontFamily: 'Nunito',
@@ -195,7 +182,7 @@ class DisciplineScreen extends StatelessWidget {
                 Text(
                   stat['label'] as String,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 11,
                     color: Colors.white54,
                     fontFamily: 'Nunito',
                   ),
@@ -362,9 +349,3 @@ class DisciplineScreen extends StatelessWidget {
     return Color(int.parse(hexColor.replaceFirst('#', '0xFF')));
   }
 }
-
-
-
-
-
-
